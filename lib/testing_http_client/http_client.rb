@@ -13,7 +13,7 @@ module Testing
       @simulated_responses = {}
     end
 
-    def get an_url
+    def get_response an_url
       validate_response_simulated_for an_url
 
       @simulated_responses[an_url].call

@@ -8,7 +8,7 @@ describe Testing::HttpClient do
   describe 'when there is no simulated response for an url' do
 
     it 'raises an error informing that no response was found for the url' do
-      expect { http_client.get url }.to raise_error(RuntimeError, Testing::HttpClient.no_simulated_response_error_message_for(url))
+      expect { http_client.get_response url }.to raise_error(RuntimeError, Testing::HttpClient.no_simulated_response_error_message_for(url))
     end
 
   end
@@ -20,7 +20,7 @@ describe Testing::HttpClient do
 
       http_client.simulate_error_raised_for url, error_message
 
-      expect { http_client.get url }.to raise_error(RuntimeError, error_message)
+      expect { http_client.get_response url }.to raise_error(RuntimeError, error_message)
     end
 
     it 'raises the object provided to simulate the response' do
@@ -28,7 +28,7 @@ describe Testing::HttpClient do
 
       http_client.simulate_error_raised_for url, error
 
-      expect { http_client.get url }.to raise_error(error)
+      expect { http_client.get_response url }.to raise_error(error)
     end
 
   end
@@ -38,7 +38,7 @@ describe Testing::HttpClient do
     it 'returns a successful http response with the provided body' do
       http_client.simulate_successful_response_for url, 'hello'
 
-      response = http_client.get url
+      response = http_client.get_response url
 
       response.code.should == '200'
       response.body.should == 'hello'
@@ -51,7 +51,7 @@ describe Testing::HttpClient do
     it 'returns a failed http response with the provided body' do
       http_client.simulate_failed_response_for url, 'hello'
 
-      response = http_client.get url
+      response = http_client.get_response url
 
       response.code.should == '500'
       response.body.should == 'hello'
